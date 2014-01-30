@@ -1,4 +1,8 @@
 go-sandbox
 ==========
 
-My tests, benchmarks
+My notes, tests, benchmarks
+
+## Random docs
+
+[Debugging Go Code With GDB](http://golang.org/doc/gdb)
