@@ -3,7 +3,7 @@ package generator
 // This shows why the original benchmark is useless.
 // http://jxck.hatenablog.com/entry/go-generator-benchmark
 //
-// When run with `go bench -cpu 4 ...`, the closure version
+// When run with `go test -cpu 4 ...`, the closure version
 // barfs, as it does not protect from race conditions. The
 // channel version is safe, as channel communication does all
 // the locking underneath.
