@@ -31,6 +31,7 @@ func BenchmarkWriteToBufferWithPool(b *testing.B) {
 	}
 	for i := 0; i < b.N; i++ {
 		b := pool.Get().(*bytes.Buffer)
+		b.Reset()
 		for j := 0; j < 100; j++ {
 			b.Write(chars)
 		}
