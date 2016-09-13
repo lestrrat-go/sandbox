@@ -3,6 +3,8 @@ package stringconcat
 import (
 	"bytes"
 	"fmt"
+	"io"
+	"io/ioutil"
 	"strconv"
 	"testing"
 )
@@ -15,6 +17,7 @@ func BenchmarkPlusConcat(b *testing.B) {
 			"abcdefghijklmnopqrstuvwxyz" +
 			string([]byte{'a', 'b', 'c'}) +
 			strconv.Itoa(100)
+		io.WriteString(ioutil.Discard, s)
 	}
 }
 
@@ -26,7 +29,7 @@ func BenchmarkFmtSprintf(b *testing.B) {
 			[]byte{'a', 'b', 'c'},
 			100,
 		)
-		_ = s
+		io.WriteString(ioutil.Discard, s)
 	}
 }
 
@@ -37,6 +40,7 @@ func BenchmarkBytesBuffer(b *testing.B) {
 		buf.WriteString("abcdefghijklmnopqrstuvwxyz")
 		buf.Write([]byte{'a', 'b', 'c'})
 		buf.WriteString(strconv.Itoa(100))
+		io.WriteString(ioutil.Discard, buf.String())
 	}
 }
 
@@ -46,6 +50,7 @@ func BenchmarkAppendBytes(b *testing.B) {
 		buf = append(buf, "abcdefghijklmnopqrstuvwxyz"...)
 		buf = append(buf, []byte{'a', 'b', 'c'}...)
 		buf = strconv.AppendInt(buf, 100, 10)
+		io.WriteString(ioutil.Discard, string(buf))
 	}
 }
 
@@ -57,6 +62,6 @@ func BenchmarkAppendBytesNoCap(b *testing.B) {
 		buf = append(buf, "abcdefghijklmnopqrstuvwxyz"...)
 		buf = append(buf, []byte{'a', 'b', 'c'}...)
 		buf = strconv.AppendInt(buf, 100, 10)
+		io.WriteString(ioutil.Discard, string(buf))
 	}
 }
-
