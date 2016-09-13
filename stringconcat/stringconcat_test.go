@@ -2,6 +2,7 @@ package stringconcat
 
 import (
 	"bytes"
+	"fmt"
 	"strconv"
 	"testing"
 )
@@ -15,7 +16,18 @@ func BenchmarkPlusConcat(b *testing.B) {
 			string([]byte{'a', 'b', 'c'}) +
 			strconv.Itoa(100)
 	}
-	b.Logf(s)
+}
+
+func BenchmarkFmtSprintf(b *testing.B) {
+	var s string
+	for i := 0; i < b.N; i++ {
+		s = fmt.Sprintf("%s%s%d",
+			"abcdefghijklmnopqrstuvwxyz",
+			[]byte{'a', 'b', 'c'},
+			100,
+		)
+		_ = s
+	}
 }
 
 func BenchmarkBytesBuffer(b *testing.B) {
@@ -26,5 +38,4 @@ func BenchmarkBytesBuffer(b *testing.B) {
 		buf.Write([]byte{'a', 'b', 'c'})
 		buf.WriteString(strconv.Itoa(100))
 	}
-	b.Logf(buf.String())
 }
