@@ -40,7 +40,7 @@ func BenchmarkBytesBuffer(b *testing.B) {
 	}
 }
 
-func BenchmarkApeendBytes(b *testing.B) {
+func BenchmarkAppendBytes(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		buf := make([]byte, 0, 64)
 		buf = append(buf, "abcdefghijklmnopqrstuvwxyz"...)
@@ -48,3 +48,15 @@ func BenchmarkApeendBytes(b *testing.B) {
 		buf = strconv.AppendInt(buf, 100, 10)
 	}
 }
+
+// same as BenchmarkAppendBytes, but without pre-allocating
+// the buffer
+func BenchmarkAppendBytesNoCap(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		var buf []byte
+		buf = append(buf, "abcdefghijklmnopqrstuvwxyz"...)
+		buf = append(buf, []byte{'a', 'b', 'c'}...)
+		buf = strconv.AppendInt(buf, 100, 10)
+	}
+}
+
