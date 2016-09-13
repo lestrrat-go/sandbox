@@ -39,3 +39,12 @@ func BenchmarkBytesBuffer(b *testing.B) {
 		buf.WriteString(strconv.Itoa(100))
 	}
 }
+
+func BenchmarkApeendBytes(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		buf := make([]byte, 0, 64)
+		buf = append(buf, "abcdefghijklmnopqrstuvwxyz"...)
+		buf = append(buf, []byte{'a', 'b', 'c'}...)
+		buf = strconv.AppendInt(buf, 100, 10)
+	}
+}
